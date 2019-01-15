@@ -18,6 +18,7 @@ class SceneLoad extends Phaser.Scene {
       this.load.image("musicOff","images/ui/icons/music_off.png");
 
       this.load.image("road", "images/road.jpg");
+      this.load.image("line", "images/line.png");
       this.load.spritesheet("cars", "images/cars.png", {
         frameWidth: 60,
         frameHeight: 126
