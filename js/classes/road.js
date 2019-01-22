@@ -12,6 +12,24 @@ class Road extends Phaser.GameObjects.Container
     console.log(this);
     this.lineGroup = this.scene.add.group();
     this.count = 0;
+
+    this.car = this.scene.add.sprite(this.displayWidth/4, game.config.height*.9, "cars");
+    this.add(this.car);
+    Align.scaleToGameW(this.car,.10);
+  }
+
+  moveLines()
+  {
+    this.lineGroup.children.iterate(function(child) {
+      child.y += this.vSpace/20;
+    }.bind(this));
+    this.count++;
+    if (this.count == 20) {
+      this.count = 0;
+      this.lineGroup.children.iterate(function(child) {
+        child.y = child.oy;
+      }.bind(this));
+    }
   }
 
   makeLines()
