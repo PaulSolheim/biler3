@@ -23,6 +23,12 @@ class SceneLoad extends Phaser.Scene {
         frameWidth: 60,
         frameHeight: 126
       });
+      this.load.image("pcar1", "images/pcar1.png");
+      this.load.image("pcar2", "images/pcar2.png");
+      this.load.image("cone", "images/cone.png");
+      this.load.image("barrier", "images/barrier.png");
+      this.load.audio("boom", ['audio/boom.mp3','audio/boom.ogg']);
+      this.load.audio("whoosh", ['audio/whoosh.mp3','audio/whoosh.ogg']);
     }
 
     onProgress(value) {

@@ -16,6 +16,65 @@ class Road extends Phaser.GameObjects.Container
     this.car = this.scene.add.sprite(this.displayWidth/4, game.config.height*.9, "cars");
     this.add(this.car);
     Align.scaleToGameW(this.car,.10);
+    this.back.setInteractive();
+    this.back.on('pointerdown',this.changeLanes,this);
+    this.addObject();
+  }
+
+  moveObject()
+  {
+    this.object.y+=this.vSpace / this.object.speed;
+    if (Collision.checkCollide(this.car, this.object) == true)
+    {
+      this.car.alpha = .5;
+    }
+    else
+    {
+      this.car.alpha = 1;
+    }
+  	if (this.object.y > game.config.height)
+  	{
+      emitter.emit(G.UP_POINTS, 1);
+  		this.object.destroy();
+  		this.addObject();
+  	}
+  }
+
+  addObject()
+  {
+  	var objs = [
+  		{key:'pcar1', speed:10, scale:10},
+  		{key:'pcar2', speed:10, scale:10},
+  		{key:'cone', speed:20, scale:5},
+  		{key:'barrier', speed:20, scale:8},
+  	];
+  	var index = Math.floor(Math.random()*4);
+  	var key = objs[index].key;
+  	var speed = objs[index].speed;
+  	var scale = objs[index].scale/100;
+
+  	this.object = this.scene.add.sprite(-this.displayWidth/4,0,key);  // husk bytt til key!
+  	this.object.speed = speed;
+
+  	var lane = Math.random()*100;
+  	if (lane < 50)
+  	{
+  		this.object.x = this.displayWidth/4;
+  	}
+  	Align.scaleToGameW(this.object, scale);  // Husk bytt til scale!
+  	this.add(this.object);
+  }
+
+  changeLanes()
+  {
+  	if (this.car.x > 0)
+  	{
+  		this.car.x = -this.displayWidth/4;
+  	}
+  	else
+  	{
+  		this.car.x = this.displayWidth/4;
+  	}
   }
 
   moveLines()
