@@ -23,10 +23,27 @@ class Road extends Phaser.GameObjects.Container
 
   moveObject()
   {
-    this.object.y+=this.vSpace / this.object.speed;
+    if (model.gameOver == true) { return; }
+    this.object.y += (this.vSpace / this.object.speed) * model.speed;
     if (Collision.checkCollide(this.car, this.object) == true)
     {
-      this.car.alpha = .5;
+      // this.car.alpha = .5;
+      model.gameOver=true;
+      emitter.emit(G.PLAY_SOUND, "boom");
+
+      this.scene.tweens.add({
+      	targets: this.car,
+      	duration: 1000,
+      	y: game.config.height,
+      	angle: -270
+      });
+
+      this.scene.time.addEvent({
+      	delay: 2000,
+      	callback: this.goGameOver,
+      	callbackScope: this.scene,
+      	loop: false
+      });
     }
     else
     {
@@ -67,6 +84,8 @@ class Road extends Phaser.GameObjects.Container
 
   changeLanes()
   {
+    if (model.gameOver == true) { return; }
+    emitter.emit(G.PLAY_SOUND, "whoosh");
   	if (this.car.x > 0)
   	{
   		this.car.x = -this.displayWidth/4;
@@ -79,6 +98,7 @@ class Road extends Phaser.GameObjects.Container
 
   moveLines()
   {
+    if (model.gameOver == true) { return; }
     this.lineGroup.children.iterate(function(child) {
       child.y += this.vSpace/20;
     }.bind(this));
@@ -100,6 +120,11 @@ class Road extends Phaser.GameObjects.Container
   		line.oy = line.y;
   		this.lineGroup.add(line);
   	}
+  }
+
+  goGameOver()
+  {
+	   this.scene.start("SceneOver");
   }
 
 }

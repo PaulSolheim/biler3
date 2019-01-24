@@ -29,6 +29,7 @@ class SceneLoad extends Phaser.Scene {
       this.load.image("barrier", "images/barrier.png");
       this.load.audio("boom", ['audio/boom.mp3','audio/boom.ogg']);
       this.load.audio("whoosh", ['audio/whoosh.mp3','audio/whoosh.ogg']);
+      this.load.image("titleBack", "images/titleBack.jpg");
     }
 
     onProgress(value) {
